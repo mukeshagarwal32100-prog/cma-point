@@ -1,94 +1,31 @@
-# CMA Point - E-Commerce Website
+# CMA Point — starter build
 
-A modern e-commerce platform built with React, Node.js, and MongoDB.
+## What's here
+- `index.html` — homepage: hero, course grid, faculty grid, test series, pricing, login modal, cart drawer
+- `styles.css` — RankEdge design system (teal #0b617e, Bricolage Grotesque, Inter, JetBrains Mono)
+- `script.js` — renders course/faculty/pricing data, cart logic, login modal, Razorpay checkout call
+- `server.js` — reference Node/Express backend: Razorpay order creation + signature verification + OTP login
+- `robots.txt`, `sitemap.xml` — baseline SEO crawling files
 
-## Features
-- Product catalog with search and filtering
-- Shopping cart functionality
-- User authentication and profiles
-- Order management
-- Payment integration with Stripe
-- Admin dashboard
-- Responsive design
-- Order tracking
+## Why it's fast
+- Plain HTML/CSS/JS — no framework bundle to download and parse
+- Fonts loaded with `display=swap` and `preconnect` so text isn't blocked
+- No render-blocking scripts (Razorpay + script.js both load `defer`)
+- Structured data (Course schema) generated from real data, not left empty
 
-## Tech Stack
-- **Frontend**: React 18, Redux, Tailwind CSS, React Router
-- **Backend**: Node.js, Express.js, MongoDB
-- **Database**: MongoDB
-- **Authentication**: JWT
-- **Payment**: Stripe
-- **Additional**: Bcrypt for password hashing, Validator
+## What's real vs. placeholder
+**Real:** the frontend, layout, all copy, the exact Razorpay checkout call flow (create-order → open checkout → verify signature) — this is the correct, secure pattern.
+**Placeholder:** `RAZORPAY_KEY_ID` in script.js, and `server.js` isn't running anywhere — it's a template. Course/faculty data is hardcoded in script.js instead of coming from a database.
 
-## Project Structure
-```
-cma-point/
-├── frontend/           # React frontend application
-│   ├── public/        # Static files
-│   ├── src/           # Source code
-│   │   ├── components/    # Reusable components
-│   │   ├── pages/        # Page components
-│   │   ├── store.js      # Redux store
-│   │   └── App.js        # Main App component
-│   └── package.json
-├── backend/           # Express.js backend API
-│   ├── models/        # MongoDB schemas
-│   ├── routes/        # API routes
-│   ├── config/        # Configuration files
-│   ├── server.js      # Main server file
-│   └── package.json
-├── docs/             # Documentation
-└── package.json      # Root package.json
-```
+## To make this live
+1. **Get Razorpay keys** — sign up at razorpay.com, get a test key first, live key after KYC.
+2. **Stand up the backend** — take `server.js`, add a real database (Postgres via Supabase/Neon is the easiest free option), deploy it (Render or Railway both have free tiers).
+3. **Swap the placeholder key** in `script.js` (`RAZORPAY_KEY_ID`) for your real one.
+4. **Host the frontend** — Vercel or Netlify, free tier, connect to a GitHub repo for auto-deploy on every push.
+5. **Point your domain** (cmapoint.in) at the Vercel/Netlify deployment.
+6. **Submit to Google Search Console** — verify domain, submit `sitemap.xml`.
 
-## Getting Started
-
-### Prerequisites
-- Node.js (v14+)
-- MongoDB (local or Atlas)
-- npm or yarn
-- Stripe account
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/mukeshagarwal32100-prog/cma-point.git
-cd cma-point
-```
-
-2. **Install all dependencies**
-```bash
-npm run install-all
-```
-
-3. **Configure environment variables**
-   - Copy `.env.example` to `.env`
-   - Update with your MongoDB URL, JWT secret, and Stripe keys
-
-4. **Start development server**
-```bash
-npm run dev
-```
-
-Frontend will be available at: `http://localhost:3000`
-Backend API will be available at: `http://localhost:5000`
-
-## Scripts
-
-- `npm run dev` - Start both frontend and backend
-- `npm run server` - Start backend only
-- `npm run client` - Start frontend only
-- `npm run install-all` - Install all dependencies
-
-## API Documentation
-
-See [API.md](docs/API.md) for detailed API documentation.
-
-## Setup Guide
-
-See [SETUP.md](docs/SETUP.md) for detailed setup instructions.
-
-## License
-
-ISC
+## Next steps I can help with
+- Individual level pages (Foundation/Inter/Final) with their own SEO metadata, matching your CMA Inter hero work
+- Wiring this to Claude Code so the backend + database actually run and deploy, not just sit as reference files
+- A real admin panel to add/edit courses and faculty instead of hardcoded data

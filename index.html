@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===== SEO META ===== -->
+<title>CMA Point | Live & Recorded CMA Classes by Top Faculty in India</title>
+<meta name="description" content="Prepare for CMA Foundation, Inter & Final with India's top-rated faculty. Live batches, recorded lectures, test series & PYQs — all in one platform. Enroll today.">
+<meta name="keywords" content="CMA classes, CMA Foundation, CMA Inter, CMA Final, ICMAI coaching, CMA online classes, best CMA faculty India">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://cmapoint.in/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="CMA Point | Learn from India's Top CMA Faculty">
+<meta property="og:description" content="Live & recorded CMA classes, test series and PYQs for Foundation, Inter and Final — taught by top-rated faculty.">
+<meta property="og:image" content="https://cmapoint.in/assets/og-cover.jpg">
+<meta property="og:url" content="https://cmapoint.in/">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Preconnects for speed -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://checkout.razorpay.com">
+
+<!-- Fonts: swap so text renders instantly (no blank flash) -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+
+<!-- ===== Structured Data: Organization ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "CMA Point",
+  "url": "https://cmapoint.in",
+  "logo": "https://cmapoint.in/assets/logo.png",
+  "description": "Online platform offering CMA Foundation, Inter and Final classes by top faculty, with test series and PYQs.",
+  "sameAs": []
+}
+</script>
+
+<!-- ===== Structured Data: Course list (populated per course card below) ===== -->
+<script type="application/ld+json" id="course-schema">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": []
+}
+</script>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="/" class="logo" aria-label="CMA Point home">
+      <span class="logo-mark">CMA</span><span class="logo-tail">Point</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#courses">Courses</a>
+      <a href="#faculty">Faculty</a>
+      <a href="#test-series">Test Series</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="cartBtn" aria-label="Open cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="btn btn-ghost" id="loginBtn">Log in</button>
+      <button class="btn btn-primary" id="signupBtn">Enroll Now</button>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">ICMAI-aligned &middot; Foundation / Inter / Final</p>
+    <h1>Rank higher in CMA.<br>Learn from faculty who've <em>put students there.</em></h1>
+    <p class="hero-sub">Live and recorded batches, chapter-wise test series and 10 years of PYQs — built around how CMA is actually examined, not how a generic course platform imagines it.</p>
+
+    <form class="hero-search" id="heroSearch" role="search">
+      <select id="levelSelect" aria-label="Select CMA level">
+        <option value="foundation">CMA Foundation</option>
+        <option value="inter">CMA Inter</option>
+        <option value="final">CMA Final</option>
+      </select>
+      <input type="text" placeholder="Search subject or faculty (e.g. Costing, CA Rishabh Jain)" aria-label="Search courses">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div class="hero-stats">
+      <div><strong>240+</strong><span>Hours per subject</span></div>
+      <div><strong>18</strong><span>Faculty on platform</span></div>
+      <div><strong>4.8/5</strong><span>Avg. student rating</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== COURSES ===================== -->
+<section class="section" id="courses">
+  <div class="section-head">
+    <h2>Pick your level</h2>
+    <p>Every course ships with recorded lectures, a printed-style PDF book, and a test series mapped to the latest ICMAI syllabus.</p>
+  </div>
+
+  <div class="course-grid" id="courseGrid">
+    <!-- Cards injected by script.js from COURSES data -->
+  </div>
+</section>
+
+<!-- ===================== FACULTY ===================== -->
+<section class="section section-alt" id="faculty">
+  <div class="section-head">
+    <h2>Learn from faculty, not just content</h2>
+    <p>Each subject is taught by one faculty end-to-end — no rotating teachers mid-syllabus.</p>
+  </div>
+
+  <div class="faculty-grid" id="facultyGrid">
+    <!-- Cards injected by script.js from FACULTY data -->
+  </div>
+</section>
+
+<!-- ===================== TEST SERIES ===================== -->
+<section class="section" id="test-series">
+  <div class="section-head">
+    <h2>Test series that mirrors the real exam</h2>
+    <p>Same paper pattern, same marking scheme, same time pressure — so results day isn't the first time you've seen it.</p>
+  </div>
+  <div class="ts-grid">
+    <div class="ts-card">
+      <span class="ts-tag">10 Years</span>
+      <h3>Previous Year Question Papers</h3>
+      <p>Solved PYQs from 2016–2026 with examiner-style marking notes.</p>
+    </div>
+    <div class="ts-card">
+      <span class="ts-tag">Weekly</span>
+      <h3>Chapter-wise Mock Tests</h3>
+      <p>Auto-evaluated MCQ + descriptive tests after every chapter.</p>
+    </div>
+    <div class="ts-card">
+      <span class="ts-tag">Full Length</span>
+      <h3>All-India Test Series</h3>
+      <p>Ranked mock exams under real exam-hall conditions and timing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section class="section section-alt" id="pricing">
+  <div class="section-head">
+    <h2>Simple, transparent pricing</h2>
+    <p>One price per subject. No hidden renewal fees.</p>
+  </div>
+  <div class="pricing-grid" id="pricingGrid">
+    <!-- Injected by script.js -->
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <div class="logo"><span class="logo-mark">CMA</span><span class="logo-tail">Point</span></div>
+      <p>India's exam-pattern-first platform for CMA Foundation, Inter and Final preparation.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Courses</h4>
+      <a href="#">CMA Foundation</a>
+      <a href="#">CMA Inter</a>
+      <a href="#">CMA Final</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">Faculty Partnerships</a>
+      <a href="#">Contact</a>
+      <a href="#">Refund Policy</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get updates</h4>
+      <form class="footer-form">
+        <input type="email" placeholder="you@email.com" aria-label="Email for updates">
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+  <div class="footer-bottom">© <span id="year"></span> CMA Point. All rights reserved.</div>
+</footer>
+
+<!-- ===================== LOGIN MODAL ===================== -->
+<div class="modal-overlay" id="authOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button class="modal-close" id="authClose" aria-label="Close">&times;</button>
+    <h3 id="authTitle">Log in to CMA Point</h3>
+    <form id="authForm">
+      <label>Mobile number
+        <input type="tel" inputmode="numeric" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
+      </label>
+      <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
+    </form>
+    <p class="modal-note">By continuing, you agree to CMA Point's Terms and Privacy Policy.</p>
+  </div>
+</div>
+
+<!-- ===================== CART / CHECKOUT DRAWER ===================== -->
+<div class="drawer-overlay" id="cartOverlay">
+  <div class="drawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="drawer-head">
+      <h3 id="cartTitle">Your cart</h3>
+      <button class="modal-close" id="cartClose" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="drawer-body" id="cartItems">
+      <p class="empty-state">Your cart is empty. Add a subject to get started.</p>
+    </div>
+    <div class="drawer-foot">
+      <div class="drawer-total">
+        <span>Total</span>
+        <strong id="cartTotal">₹0</strong>
+      </div>
+      <button class="btn btn-primary btn-block" id="checkoutBtn" disabled>Pay with Razorpay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Razorpay Checkout script (loaded once, deferred) -->
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+<script src="script.js" defer></script>
+</body>
+</html>
