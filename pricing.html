@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing | CMA Point</title>
+<meta name="description" content="Simple, transparent pricing for CMA Foundation, Inter and Final classes — single subject, full level, or complete bundle.">
+<link rel="canonical" href="https://cmapoint.in/pricing.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="hero" style="padding:48px 24px 56px;">
+  <div class="hero-inner">
+    <p class="eyebrow">Pricing</p>
+    <h1>One price per subject. <em>No hidden renewals.</em></h1>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="pricing-grid" id="pricingGrid"></div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-modals"></div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+<script src="api.js"></script>
+<script src="partials.js"></script>
+<script src="site.js"></script>
+<script>
+  const PLANS = [
+    { name: "Single Subject", price: 3499, features: ["1 subject, full syllabus", "Recorded lectures", "Chapter-wise tests"] },
+    { name: "Full Level Bundle", price: 14999, featured: true, features: ["All subjects for one level", "Live + recorded access", "Full test series", "PYQs, 2016–2026"] },
+    { name: "Foundation to Final", price: 39999, features: ["Every level, every subject", "Priority doubt support", "All test series included"] },
+  ];
+  document.addEventListener("partialsReady", () => {
+    document.getElementById("pricingGrid").innerHTML = PLANS.map(p => `
+      <div class="price-card ${p.featured ? "featured" : ""}">
+        <h3>${p.name}</h3>
+        <div class="price-amount">${money(p.price)} <span>/ level</span></div>
+        <ul>${p.features.map(f => `<li>${f}</li>`).join("")}</ul>
+        <button class="btn ${p.featured ? "btn-primary" : "btn-ghost"} btn-block plan-btn" data-price="${p.price}" data-name="${p.name}">Choose plan</button>
+      </div>
+    `).join("");
+    document.querySelectorAll(".plan-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        cart = [{ id: "plan-" + btn.dataset.name, title: btn.dataset.name, price: Number(btn.dataset.price) }];
+        renderCart();
+        document.getElementById("cartOverlay").classList.add("open");
+      });
+    });
+  });
+</script>
+</body>
+</html>

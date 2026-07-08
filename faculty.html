@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Faculty | CMA Point</title>
+<meta name="description" content="Meet the faculty behind CMA Point's Foundation, Inter and Final classes — each subject taught end-to-end by one specialist.">
+<link rel="canonical" href="https://cmapoint.in/faculty.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="hero" style="padding:48px 24px 56px;">
+  <div class="hero-inner">
+    <p class="eyebrow">Faculty</p>
+    <h1>Learn from faculty, <em>not rotating content.</em></h1>
+    <p class="hero-sub">Each subject is taught end-to-end by one faculty member — no switching teachers mid-syllabus.</p>
+  </div>
+</section>
+
+<section class="section" id="faculty">
+  <div class="faculty-grid" id="facultyGrid">
+    <p class="empty-state">Loading faculty…</p>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-modals"></div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+<script src="api.js"></script>
+<script src="partials.js"></script>
+<script src="site.js"></script>
+<script>
+  document.addEventListener("partialsReady", async () => {
+    const grid = document.getElementById("facultyGrid");
+    try {
+      const faculty = await fetchFaculty();
+      if (faculty.length === 0) {
+        grid.innerHTML = `<p class="empty-state">No faculty published yet. Add one from the admin panel.</p>`;
+        return;
+      }
+      grid.innerHTML = faculty.map(f => `
+        <div class="faculty-card">
+          <div class="faculty-avatar">${f.name.split(" ").slice(-1)[0][0]}</div>
+          <h4>${f.name}</h4>
+          <p>${f.subject}</p>
+        </div>
+      `).join("");
+    } catch {
+      grid.innerHTML = `<p class="empty-state">Couldn't reach the backend. Make sure server.js is running.</p>`;
+    }
+  });
+</script>
+</body>
+</html>

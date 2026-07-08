@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMA Foundation Classes | Live & Recorded, Faculty-Taught | CMA Point</title>
+<meta name="description" content="CMA Foundation classes covering Accounting, Laws, Economics and Quantitative Aptitude — taught by top faculty, with chapter-wise tests mapped to the ICMAI syllabus.">
+<link rel="canonical" href="https://cmapoint.in/cma-foundation.html">
+<meta property="og:title" content="CMA Foundation Classes | CMA Point">
+<meta property="og:description" content="Live & recorded CMA Foundation classes with chapter-wise test series, taught by top faculty.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://cmapoint.in/"},
+    {"@type":"ListItem","position":2,"name":"CMA Foundation","item":"https://cmapoint.in/cma-foundation.html"}
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="hero" style="padding:48px 24px 56px;">
+  <div class="hero-inner">
+    <p class="eyebrow">CMA Foundation</p>
+    <h1>Start CMA right — <em>the first attempt.</em></h1>
+    <p class="hero-sub">Accounting, Laws & Ethics, Economics and Quantitative Aptitude, taught chapter by chapter with tests after every unit.</p>
+  </div>
+</section>
+
+<section class="section" id="courses">
+  <div class="section-head">
+    <h2>Foundation subjects</h2>
+    <p>Loading current pricing and availability from the CMA Point catalogue.</p>
+  </div>
+  <div class="course-grid" id="courseGrid">
+    <p class="empty-state">Loading courses…</p>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-modals"></div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+<script src="api.js"></script>
+<script src="partials.js"></script>
+<script src="site.js"></script>
+<script>
+  document.addEventListener("partialsReady", async () => {
+    const grid = document.getElementById("courseGrid");
+    try {
+      const courses = await fetchCourses("Foundation");
+      if (courses.length === 0) {
+        grid.innerHTML = `<p class="empty-state">No Foundation courses published yet. Add one from the admin panel.</p>`;
+        return;
+      }
+      grid.innerHTML = courses.map(c => `
+        <article class="course-card">
+          <div class="course-thumb">FOUNDATION</div>
+          <div class="course-body">
+            <span class="course-level">CMA Foundation</span>
+            <h3>${c.title}</h3>
+            <p class="course-faculty">Taught by ${c.faculty}</p>
+            <div class="course-meta">
+              <span class="course-price">${money(c.price)}<small>${money(c.mrp)}</small></span>
+              <button class="add-btn" data-id="${c.id}" data-title="${c.title}" data-price="${c.price}">Add</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+      grid.addEventListener("click", (e) => {
+        const btn = e.target.closest(".add-btn");
+        if (!btn) return;
+        addToCart({ id: btn.dataset.id, title: btn.dataset.title, price: Number(btn.dataset.price) });
+      });
+    } catch {
+      grid.innerHTML = `<p class="empty-state">Couldn't reach the backend. Make sure server.js is running (see README.md).</p>`;
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | CMA Point</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .admin-wrap{max-width:900px; margin:0 auto; padding:40px 24px 80px;}
+  .admin-wrap h1{font-size:26px; margin-bottom:6px;}
+  .admin-wrap p.sub{color:var(--slate); margin-bottom:32px;}
+  .admin-card{border:1px solid var(--border); border-radius:var(--radius); padding:24px; margin-bottom:28px; background:#fff;}
+  .admin-card h2{font-size:17px; margin-bottom:16px;}
+  .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .form-grid input, .form-grid select{padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:14px; width:100%;}
+  .form-grid .full{grid-column:1 / -1;}
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  th, td{text-align:left; padding:10px 8px; border-bottom:1px solid var(--border);}
+  th{color:var(--slate-light); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em;}
+  .del-btn{color:#b91c1c; font-size:13px; font-weight:600;}
+  .status-msg{font-size:13.5px; margin-top:10px;}
+  .status-msg.ok{color:var(--success);} .status-msg.err{color:#b91c1c;}
+  #lockScreen{max-width:340px; margin:80px auto; text-align:center;}
+  #lockScreen input{width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:10px; margin:16px 0;}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div id="lockScreen">
+  <h1>Admin access</h1>
+  <p class="sub">Enter your admin key to manage courses and faculty.</p>
+  <input type="password" id="adminKeyInput" placeholder="Admin key">
+  <button class="btn btn-primary btn-block" id="unlockBtn">Unlock</button>
+  <p class="status-msg err" id="lockError"></p>
+</div>
+
+<div class="admin-wrap" id="adminPanel" style="display:none;">
+  <h1>Manage CMA Point</h1>
+  <p class="sub">Add or remove courses and faculty. Changes appear on the live pages immediately.</p>
+
+  <div class="admin-card">
+    <h2>Add a course</h2>
+    <form id="courseForm" class="form-grid">
+      <input name="id" placeholder="Unique ID (e.g. cma-i-fm)" required>
+      <select name="level" required>
+        <option value="Foundation">Foundation</option>
+        <option value="Inter">Inter</option>
+        <option value="Final">Final</option>
+      </select>
+      <input name="title" placeholder="Course title" required class="full">
+      <input name="faculty" placeholder="Faculty name" required>
+      <input name="price" type="number" placeholder="Price (₹)" required>
+      <input name="mrp" type="number" placeholder="MRP / strike-through price (₹)">
+      <input name="description" placeholder="Short description (optional)" class="full">
+      <button class="btn btn-primary full" type="submit">Add course</button>
+    </form>
+    <p class="status-msg" id="courseFormStatus"></p>
+  </div>
+
+  <div class="admin-card">
+    <h2>Existing courses</h2>
+    <table id="courseTable">
+      <thead><tr><th>Title</th><th>Level</th><th>Faculty</th><th>Price</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="admin-card">
+    <h2>Add a faculty member</h2>
+    <form id="facultyForm" class="form-grid">
+      <input name="id" placeholder="Unique ID (e.g. f5)" required>
+      <input name="name" placeholder="Full name" required>
+      <input name="subject" placeholder="Subject taught" required class="full">
+      <button class="btn btn-primary full" type="submit">Add faculty</button>
+    </form>
+    <p class="status-msg" id="facultyFormStatus"></p>
+  </div>
+
+  <div class="admin-card">
+    <h2>Existing faculty</h2>
+    <table id="facultyTable">
+      <thead><tr><th>Name</th><th>Subject</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<div id="site-modals"></div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+<script src="api.js"></script>
+<script src="partials.js"></script>
+<script src="site.js"></script>
+<script>
+let adminKey = sessionStorage.getItem("cmapoint_admin_key") || "";
+
+async function adminFetch(path, options = {}) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers: { "Content-Type": "application/json", "x-admin-key": adminKey, ...(options.headers || {}) }
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Request failed");
+  return data;
+}
+
+async function loadCourseTable() {
+  const courses = await fetchCourses();
+  document.querySelector("#courseTable tbody").innerHTML = courses.map(c => `
+    <tr>
+      <td>${c.title}</td><td>${c.level}</td><td>${c.faculty}</td><td>${money(c.price)}</td>
+      <td><button class="del-btn" data-id="${c.id}" data-type="course">Delete</button></td>
+    </tr>
+  `).join("") || `<tr><td colspan="5">No courses yet.</td></tr>`;
+}
+
+async function loadFacultyTable() {
+  const faculty = await fetchFaculty();
+  document.querySelector("#facultyTable tbody").innerHTML = faculty.map(f => `
+    <tr><td>${f.name}</td><td>${f.subject}</td>
+      <td><button class="del-btn" data-id="${f.id}" data-type="faculty">Delete</button></td>
+    </tr>
+  `).join("") || `<tr><td colspan="3">No faculty yet.</td></tr>`;
+}
+
+function showLocked(msg) {
+  document.getElementById("lockScreen").style.display = "block";
+  document.getElementById("adminPanel").style.display = "none";
+  document.getElementById("lockError").textContent = msg || "";
+}
+
+async function tryUnlock(key) {
+  adminKey = key;
+  try {
+    // Prove the key works by attempting a harmless admin call (delete of a non-existent id
+    // still requires a valid key — a 401 vs 404 tells us whether the key itself is right).
+    const res = await fetch(`${API_BASE}/api/courses/__keycheck__`, {
+      method: "DELETE", headers: { "x-admin-key": key }
+    });
+    if (res.status === 401) { showLocked("Incorrect admin key."); return; }
+    sessionStorage.setItem("cmapoint_admin_key", key);
+    document.getElementById("lockScreen").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    loadCourseTable();
+    loadFacultyTable();
+  } catch {
+    showLocked("Couldn't reach the backend. Make sure server.js is running.");
+  }
+}
+
+document.addEventListener("partialsReady", () => {
+  document.getElementById("unlockBtn").addEventListener("click", () => {
+    tryUnlock(document.getElementById("adminKeyInput").value);
+  });
+  if (adminKey) tryUnlock(adminKey);
+
+  document.getElementById("courseForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const body = Object.fromEntries(f.entries());
+    body.price = Number(body.price);
+    body.mrp = body.mrp ? Number(body.mrp) : body.price;
+    const status = document.getElementById("courseFormStatus");
+    try {
+      await adminFetch("/api/courses", { method: "POST", body: JSON.stringify(body) });
+      status.textContent = "Course added."; status.className = "status-msg ok";
+      e.target.reset();
+      loadCourseTable();
+    } catch (err) {
+      status.textContent = err.message; status.className = "status-msg err";
+    }
+  });
+
+  document.getElementById("facultyForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const body = Object.fromEntries(new FormData(e.target).entries());
+    const status = document.getElementById("facultyFormStatus");
+    try {
+      await adminFetch("/api/faculty", { method: "POST", body: JSON.stringify(body) });
+      status.textContent = "Faculty added."; status.className = "status-msg ok";
+      e.target.reset();
+      loadFacultyTable();
+    } catch (err) {
+      status.textContent = err.message; status.className = "status-msg err";
+    }
+  });
+
+  document.body.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".del-btn");
+    if (!btn) return;
+    if (!confirm("Delete this permanently?")) return;
+    const path = btn.dataset.type === "course" ? `/api/courses/${btn.dataset.id}` : `/api/faculty/${btn.dataset.id}`;
+    await adminFetch(path, { method: "DELETE" });
+    btn.dataset.type === "course" ? loadCourseTable() : loadFacultyTable();
+  });
+});
+</script>
+</body>
+</html>

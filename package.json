@@ -1,24 +1,20 @@
 {
-  "name": "cma-point",
+  "name": "cmapoint",
   "version": "1.0.0",
-  "description": "Modern E-Commerce Website",
-  "main": "index.js",
+  "description": "- `index.html` — homepage: hero, course grid, faculty grid, test series, pricing, login modal, cart drawer - `styles.css` — RankEdge design system (teal #0b617e, Bricolage Grotesque, Inter, JetBrains Mono) - `script.js` — renders course/faculty/pricing data, cart logic, login modal, Razorpay checkout call - `server.js` — reference Node/Express backend: Razorpay order creation + signature verification + OTP login - `robots.txt`, `sitemap.xml` — baseline SEO crawling files",
+  "main": "script.js",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd backend && npm start",
-    "client": "cd frontend && npm start",
-    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "keywords": [
-    "ecommerce",
-    "shopping",
-    "store",
-    "react",
-    "express"
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^7.0.0"
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "razorpay": "^2.9.6"
   }
 }
